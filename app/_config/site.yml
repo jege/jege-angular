@@ -1,7 +1,6 @@
 jquery_version: 1.8.1
 angular_version: 1.0.1
 
-
 profiles:
   development:
     base_url: http://localhost:4242
@@ -9,6 +8,15 @@ profiles:
     api_resource_url: http://localhost:port/jege-service/api/1
     api_resource_port: 8080
   staging:
-    base_url: http://todo.com
+    base_url: https://jege.github.com/jege-angular
+    api_http_url: http://service-jege.rhcloud.com/api/1
+    api_resource_url: http://service-jege.rhcloud.com:port/api/1
+    api_resource_port: 80
+    deploy:
+      host: github_pages 
   production:
-    base_url: http://todo.com
+    base_url: https://jege.github.com/jege-angular
+    api_http_url: http://service-jege.rhcloud.com/api/1
+    api_resource_url: http://service-jege.rhcloud.com:port/api/1
+    api_resource_port: 80
+    
