@@ -40,7 +40,7 @@ function InscriptionCtrl($scope, $cookies, User) {
                 console.log(newUserId);
                 console.log("Set cookie");
                 $cookies.userid = newUserId;
-                window.location = "https://jege.github.com/jege-angular";
+                window.location = "//jege.github.com/jege-angular";
         });
     }
 }
