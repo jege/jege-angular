@@ -1,0 +1,27 @@
+---
+layout: non-fluid
+---
+
+%h1 Users
+
+%table.table.table-striped.table-bordered.table-hover{"data-ng-controller"=>"UserCtrl"}
+  %tr
+    %th Id
+    %th Username
+    %th Email
+    %th First name
+    %th Last name
+    %th REST
+  %tr{"ng-repeat"=>"user in users"}
+    %td
+      {{user.id}}
+    %td
+      {{user.username}}
+    %td
+      {{user.email}}
+    %td
+      {{user.firstName}}
+    %td
+      {{user.lastName}}
+    %td
+      %a{ :href => "#{site.api_http_url}/users/{{user.id}}" } View JSON

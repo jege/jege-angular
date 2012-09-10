@@ -1,0 +1,38 @@
+---
+layout: non-fluid
+---
+
+%h1 Inscription
+
+.form-horizontal{"data-ng-controller"=>"InscriptionCtrl"}
+  .control-group
+    %label.control-label{ :for => "inputUsername" } Username
+    .controls
+      %input#inputUsername{:type => "text", :placeholder => "Username", "data-ng-model" => "newUser.username"}
+  
+  .control-group
+    %label.control-label{ :for => "inputEmail" } Email
+    .controls
+      %input#inputEmail{:type => "text", :placeholder => "Email", "data-ng-model" => "newUser.email"}
+      
+  .control-group
+    %label.control-label{ :for => "inputPassword" } Password
+    .controls
+      %input#inputPassword{:type => "password", :placeholder => "Password", "data-ng-model" => "newUser.password"}
+
+  .control-group
+    %label.control-label{ :for => "inputConfirmPassword" } Confirm Password
+    .controls
+      %input#inputConfirmPassword{:type => "password", :placeholder => "Confirm Password", "data-ng-model" => "newUser.confirmPassword"}
+  
+  .control-group
+    %label.control-label{ :for => "inputFirstName" } First name
+    .controls
+      %input#inputFirstName{:type => "text", :placeholder => "First name", "data-ng-model" => "newUser.firstName"}
+      
+  .control-group
+    %label.control-label{ :for => "inputLastName" } Last name
+    .controls
+      %input#inputLastName{:type => "text", :placeholder => "Last name", "data-ng-model" => "newUser.lastName"}
+  
+  %button.btn.btn-primary{"data-ng-click" => "create()"} Register

@@ -1,0 +1,28 @@
+---
+layout: non-fluid
+---
+
+%h1 Profile
+
+.form-horizontal{"data-ng-controller"=>"ProfileCtrl"}
+  .control-group
+    %label.control-label{ :for => "inputUsername" } Username
+    .controls
+      %input#inputUsername{:type => "text", :placeholder => "Username", "data-ng-model" => "user.username"}
+  
+  .control-group
+    %label.control-label{ :for => "inputEmail" } Email
+    .controls
+      %input#inputEmail{:type => "text", :placeholder => "Email", "data-ng-model" => "user.email"}
+  
+  .control-group
+    %label.control-label{ :for => "inputFirstName" } First name
+    .controls
+      %input#inputFirstName{:type => "text", :placeholder => "First name", "data-ng-model" => "user.firstName"}
+      
+  .control-group
+    %label.control-label{ :for => "inputLastName" } Last name
+    .controls
+      %input#inputLastName{:type => "text", :placeholder => "Last name", "data-ng-model" => "user.lastName"}
+  
+  %button.btn.btn-primary{"data-ng-click" => "update()"} Register

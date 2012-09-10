@@ -1,0 +1,20 @@
+#signinModal.modal.hide.fade{"data-ng-controller"=>"SigninCtrl"}
+  .modal-header
+    %button.close{ :type => "button", "data-dismiss" => "modal" } &times;
+    %h3 Sign in
+  
+  .modal-body
+    .form-horizontal
+      .control-group
+        %label.control-label{ :for => "inputSigninUsername" } Username
+        .controls
+          %input#inputSigninUsername{:type => "text", :placeholder => "Username", "data-ng-model" => "credentials.username"}
+      
+      .control-group
+        %label.control-label{ :for => "inputSigninPassword" } Password
+        .controls
+          %input#inputSigninPassword{:type => "password", :placeholder => "Password", "data-ng-model" => "credentials.password"}
+  
+  .modal-footer
+    %button.btn{ :type => "button", "data-dismiss" => "modal" } Cancel
+    %button.btn.btn-primary{ :type => "button", "data-ng-click" => "signin()" } Sign in

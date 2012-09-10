@@ -1,0 +1,14 @@
+jquery_version: 1.8.1
+angular_version: 1.0.1
+
+
+profiles:
+  development:
+    base_url: http://localhost:4242
+    api_http_url: http://localhost:8080/jege-service/api/1
+    api_resource_url: http://localhost:port/jege-service/api/1
+    api_resource_port: 8080
+  staging:
+    base_url: http://todo.com
+  production:
+    base_url: http://todo.com

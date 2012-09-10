@@ -1,0 +1,31 @@
+%header
+  .navbar.navbar-fixed-top
+    .navbar-inner
+      .container
+        %a.btn.btn-navbar{:data=>{:toggle=>"collapse", :target=>".nav-collapse"}}
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+        
+        %a.brand{ :href => "/" } JEGE AngularJS
+        
+        .nav-collapse
+          %ul.nav
+            %li
+              %a{:href=>"/"} Home
+              
+          %ul.nav.pull-right
+            %li.logged-out
+              %a{ :href => "/public/user/inscription" } Inscription
+            %li.logged-out
+              %a{ :href => "#", :data => { :toggle => "modal", :target => "#signinModal" } } Sign in
+            %li.dropdown.logged-in
+              %a.dropdown-toggle{ :href => "#", "data-toggle" => "dropdown" }
+                You
+                %b.caret
+              %ul.dropdown-menu
+                %li
+                  %a{ :href => "/private/user/profile" } Profile
+                %li{"data-ng-controller"=>"SigninCtrl"}
+                  %a{ :href => "/", "data-ng-click" => "signout()" } Sign out
+            
