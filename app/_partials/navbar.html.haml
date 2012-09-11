@@ -7,16 +7,16 @@
           %span.icon-bar
           %span.icon-bar
         
-        %a.brand{ :href => "/" } JEGE AngularJS
+        %a.brand{ :href => "#{site.base_url}" } JEGE AngularJS
         
         .nav-collapse
           %ul.nav
             %li
-              %a{:href=>"/"} Home
+              %a{:href=>"#{site.base_url}"} Home
               
           %ul.nav.pull-right
             %li.logged-out
-              %a{ :href => "/public/user/inscription" } Inscription
+              %a{ :href => "#{site.base_url}/public/user/inscription" } Inscription
             %li.logged-out
               %a{ :href => "#", :data => { :toggle => "modal", :target => "#signinModal" } } Sign in
             %li.dropdown.logged-in
@@ -25,7 +25,7 @@
                 %b.caret
               %ul.dropdown-menu
                 %li
-                  %a{ :href => "/private/user/profile" } Profile
+                  %a{ :href => "#{site.base_url}/private/user/profile" } Profile
                 %li{"data-ng-controller"=>"SigninCtrl"}
-                  %a{ :href => "/", "data-ng-click" => "signout()" } Sign out
+                  %a{ :href => "#{site.base_url}", "data-ng-click" => "signout()" } Sign out
             
