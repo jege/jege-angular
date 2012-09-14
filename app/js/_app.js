@@ -1,5 +1,3 @@
-'use strict';
-
 // Declare app level module which depends on filters, and services
 angular.module('jege', ['ngCookies', 'jege.filters', 'jege.services', 'jege.directives']).
     config(['$routeProvider', function($routeProvider) {

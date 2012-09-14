@@ -1,0 +1,8 @@
+//= require "./_useStrict.js"
+//= require "./_app.js"
+//= require "./_services.js"
+//= require "./_controllers.js"
+//= require "./_filters.js"
+//= require "./_directives.js"
+//= require "./_plugins.js"
+//= require "./_scripts.js"

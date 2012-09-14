@@ -13,9 +13,11 @@ module Awestruct::Extensions
       @append_paths = append_paths
       @preprend_paths = preprend_paths
       @append_version = opts[:append_version] || true
+      @version = opts[:version]
       @interpolate = opts[:interpolate] || true
-      @compress = opts[:compress] || "default"
-      @compress_munge = opts[:compress_munge] || true
+      @minify = opts[:minify] || "default"
+      @minify_munge = opts[:minify_munge] || true
+      @minify_suffix = opts[:minify_suffix] || '.min'
     end
     
     def execute(site)
@@ -39,34 +41,36 @@ module Awestruct::Extensions
       end
       
       if(@append_version)
-        @output_path[@output_path.rindex(".")] = "-" + site.version + "."
+      	@version = @version || site.version
+        @output_path[@output_path.rindex(".")] = "-" + @version + "."
       end
       
-      if(@compress == "always")
-        do_compress = true
-      else
-        if(@compress == "never")
-          do_compress = false
-        else
-          @compress = (site.profile == "production")
-        end
+      do_compress = case @minify
+        when 'always' then true
+        when 'already' then false
+        when 'never' then false
+        else site.minify
       end
+      
+      lastDotIndex = @output_path.rindex(".")
       
       if(do_compress)
-        lastDotIndex = @output_path.rindex(".")
         fileExtension = @output_path[lastDotIndex+1, @output_path.length]
         
-        @output_path[lastDotIndex] = ".min."
-        
-        if(fileExtension == 'js')
-          compressor = YUI::JavaScriptCompressor.new(:munge => @compress_munge)
+        compressor = case fileExtension
+          when 'js' then YUI::JavaScriptCompressor.new(:munge => @minify_munge)
+          when 'css' then YUI::CssCompressor.new
+          else nil
         end
         
-        if(fileExtension == 'css')
-          compressor = YUI::CssCompressor.new
+        if(!compressor.nil)
+          output = compressor.compress(output)
         end
-        
-        output = compressor.compress(output)
+      end
+      
+      if(do_compress || @minify == 'already')
+        lastDotIndex = @output_path.rindex(".")
+        @output_path[lastDotIndex] = @minify_suffix + "."
       end
       
       filePath = File.join( site.config.output_dir, @output_path )
