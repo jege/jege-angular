@@ -3,27 +3,23 @@ function InscriptionCtrl($scope, $cookies, User) {
     
     $scope.create = function() {
         var newUserId = getUuid();
-        console.log(newUserId);
         $scope.newUser.id = newUserId;
         
         User.create({}, $scope.newUser,
-            function() {
-                console.log("Inscript success");
-                console.log(newUserId);
-                console.log("Set cookie");
-                $cookies.userid = newUserId;
+            function(response) {
+                signin($scope.newUser.id);
                 window.location = "#{site.base_url}";
         });
     }
 }
 
-function SigninCtrl($scope, $cookies, User) {
+function SigninCtrl($scope, User) {
     $scope.credentials = {};
     
     $scope.signin = function() {
         User.signin({}, $scope.credentials,
-            function(responseBody) {
-                $cookies.userid = responseBody.userid;
+            function(response) {
+                signin(response.body.userid);
                 $('#signinModal').modal('hide');
                 window.location.reload();
             },
@@ -33,12 +29,14 @@ function SigninCtrl($scope, $cookies, User) {
     }
     
     $scope.signout = function() {
-        $cookies.userid = "";
+        signout();
     }
 }
 
 function ProfileCtrl($scope, User) {
-    $scope.user = User.get({_param1: $scope.cookies.userid});
+    User.get({_param1: $scope.userid}, function(response) {
+        $scope.user = response.body;
+    });
     
     $scope.update = function() {
         User.update({_param1: $scope.user.id}, $scope.user);

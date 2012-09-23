@@ -4,7 +4,7 @@ layout: non-fluid
 
 %h1 Inscription
 
-.form-horizontal{"data-ng-controller"=>"InscriptionCtrl"}
+%form.form-horizontal{"data-ng-controller"=>"InscriptionCtrl"}
   .control-group
     %label.control-label{ :for => "inputUsername" } Username
     .controls
@@ -35,4 +35,4 @@ layout: non-fluid
     .controls
       %input#inputLastName{:type => "text", :placeholder => "Last name", "data-ng-model" => "newUser.lastName"}
   
-  %button.btn.btn-primary{"data-ng-click" => "create()"} Register
+  %button.btn.btn-primary.default{"data-ng-click" => "create()"} Register

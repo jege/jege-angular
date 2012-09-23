@@ -14,9 +14,9 @@ module Awestruct::Extensions
       @preprend_paths = preprend_paths
       @append_version = opts[:append_version] || true
       @version = opts[:version]
-      @interpolate = opts[:interpolate] || true
+      @interpolate = (opts[:interpolate].nil? ? true : opts[:interpolate])
       @minify = opts[:minify] || "default"
-      @minify_munge = opts[:minify_munge] || true
+      @minify_munge = (opts[:minify_munge].nil? ? true : opts[:minify_munge])
       @minify_suffix = opts[:minify_suffix] || '.min'
     end
     

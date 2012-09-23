@@ -1,3 +1,5 @@
 function UserCtrl($scope, User) {
-    $scope.users = User.query();
+    User.get({}, function(response) {
+        $scope.users = response.body;
+    });
 }
