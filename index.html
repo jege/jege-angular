@@ -1,19 +1,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en" data-ng-app="jege"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en" data-ng-app="jege"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en" data-ng-app="jege"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" data-ng-app="jege"> <!--<![endif]-->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en" data-ng-app="jege" data-ng-controller="AppCtrl"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en" data-ng-app="jege" data-ng-controller="AppCtrl"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en" data-ng-app="jege" data-ng-controller="AppCtrl"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" data-ng-app="jege" data-ng-controller="AppCtrl"> <!--<![endif]-->
 <head>
   <meta charset='utf-8' />
   <title>JEGE AngularJS</title>
   <meta content='' name='description' />
   <meta content='Paul Dijou' name='author' />
   <meta content='width=device-width' name='viewport' />
-  <link href='//jege.github.com/jege-angular/less/style-1.0.0.less' rel='stylesheet/less' />
-  <script src='//jege.github.com/jege-angular/js/libs/less-1.3.0.min.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/libs/modernizr-2.6.1.js' type='text/javascript'></script>
+  <link href='//jege.github.com/jege-angular/less/style.less' rel='stylesheet/less' />
+  <script src='//jege.github.com/jege-angular/js/libs/less/less-1.3.0.js' type='text/javascript'></script>
+  <script src='//jege.github.com/jege-angular/js/libs/modernizr/modernizr-2.6.2.js' type='text/javascript'></script>
 </head>
-<body data-ng-controller='MainCtrl'>
+<body>
   <!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
   <header>
     <div class='navbar navbar-fixed-top'>
@@ -32,15 +32,22 @@
               </li>
             </ul>
             <ul class='nav pull-right'>
-              <li class='logged-out'>
+              <li data-ng-hide='isLoggedIn()'>
                 <a href='//jege.github.com/jege-angular/public/user/inscription'>Inscription</a>
               </li>
-              <li class='logged-out'>
+              <li data-ng-hide='isLoggedIn()'>
                 <a data-target='#signinModal' data-toggle='modal' href='#'>Sign in</a>
               </li>
-              <li class='dropdown logged-in'>
+              <li data-ng-hide='isLoggedIn()'>
+                <a class='persona-button dark' href='#' onclick='if(navigator.id) navigator.id.request();'>
+                  <span>
+                    Sign in
+                  </span>
+                </a>
+              </li>
+              <li class='dropdown' data-ng-show='isLoggedIn()'>
                 <a class='dropdown-toggle' data-toggle='dropdown' href='#'>
-                  You
+                  Me
                   <b class='caret'></b>
                 </a>
                 <ul class='dropdown-menu'>
@@ -59,6 +66,7 @@
     </div>
   </header>
   <div class='container'>
+    <div data-channel-type='global' id='globalChannel'></div>
     <h1>Users</h1>
     <table class='table table-striped table-bordered table-hover' data-ng-controller='UserCtrl'>
       <tr>
@@ -90,6 +98,7 @@
         </td>
       </tr>
     </table>
+    
   </div>
   <footer></footer>
   <div class='modal hide fade' data-ng-controller='SigninCtrl' id='signinModal'>
@@ -97,12 +106,12 @@
       <button class='close' data-dismiss='modal' type='button'>&times;</button>
       <h3>Sign in</h3>
     </div>
-    <div class='modal-body'>
-      <div class='form-horizontal'>
+    <form class='form-horizontal' id='formSignin'>
+      <div class='modal-body'>
         <div class='control-group'>
           <label class='control-label' for='inputSigninUsername'>Username</label>
           <div class='controls'>
-            <input data-ng-model='credentials.username' id='inputSigninUsername' placeholder='Username' type='text' />
+            <input class='focus' data-ng-model='credentials.username' id='inputSigninUsername' placeholder='Username' type='text' />
           </div>
         </div>
         <div class='control-group'>
@@ -111,40 +120,37 @@
             <input data-ng-model='credentials.password' id='inputSigninPassword' placeholder='Password' type='password' />
           </div>
         </div>
+        <div class='control-group'>
+          <label class='control-label'></label>
+          <div class='controls'>
+            <label for='inputSigninRememberMe'>
+              <input data-ng-model='credentials.rememberMe' id='inputSigninRememberMe' type='checkbox' />
+              Remember me
+            </label>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class='modal-footer'>
-      <button class='btn' data-dismiss='modal' type='button'>Cancel</button>
-      <button class='btn btn-primary' data-ng-click='signin()' type='button'>Sign in</button>
-    </div>
+      <div class='modal-footer'>
+        <button class='btn' data-dismiss='modal' type='button'>Cancel</button>
+        <button class='btn btn-primary default' data-ng-click='signin()' type='button'>Sign in</button>
+      </div>
+    </form>
   </div>
   <script src='//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.js' type='text/javascript'></script>
   <script type='text/javascript'>
-    window.jQuery || document.write('<script src="/js/libs/jquery-1.8.1.js"><\/script>')
+    window.jQuery || document.write('<script src="/js/libs/jquery/jquery-1.8.1.js"><\/script>')
   </script>
-  <script src='//jege.github.com/jege-angular/js/libs/bootstrap/bootstrap-affix.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/libs/bootstrap/bootstrap-alert.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/libs/bootstrap/bootstrap-button.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/libs/bootstrap/bootstrap-carousel.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/libs/bootstrap/bootstrap-collapse.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/libs/bootstrap/bootstrap-dropdown.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/libs/bootstrap/bootstrap-modal.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/libs/bootstrap/bootstrap-popover.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/libs/bootstrap/bootstrap-scrollspy.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/libs/bootstrap/bootstrap-tab.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/libs/bootstrap/bootstrap-tooltip.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/libs/bootstrap/bootstrap-transition.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/libs/bootstrap/bootstrap-typeahead.js' type='text/javascript'></script>
+  <script src='//jege.github.com/jege-angular/js/libs/bootstrap/bootstrap-2.1.0.js' type='text/javascript'></script>
   <script src='//jege.github.com/jege-angular/js/libs/angular/angular-1.0.1.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/libs/angular/angular-resource-1.0.1.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/libs/angular/angular-cookies-1.0.1.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/app.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/services.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/controllers.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/filters.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/directives.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/plugins.js' type='text/javascript'></script>
-  <script src='//jege.github.com/jege-angular/js/script.js' type='text/javascript'></script>
+  <script src='//jege.github.com/jege-angular/js/libs/noty/noty-2.0.3.js' type='text/javascript'></script>
+  <script src='https://login.persona.org/include.js' type='text/javascript'></script>
+  <script src='//jege.github.com/jege-angular/js/app-0.0.1.js' type='text/javascript'></script>
+  <script src='//jege.github.com/jege-angular/js/services-0.0.1.js' type='text/javascript'></script>
+  <script src='//jege.github.com/jege-angular/js/controllers-0.0.1.js' type='text/javascript'></script>
+  <script src='//jege.github.com/jege-angular/js/filters-0.0.1.js' type='text/javascript'></script>
+  <script src='//jege.github.com/jege-angular/js/directives-0.0.1.js' type='text/javascript'></script>
+  <script src='//jege.github.com/jege-angular/js/plugins-0.0.1.js' type='text/javascript'></script>
+  <script src='//jege.github.com/jege-angular/js/scripts-0.0.1.js' type='text/javascript'></script>
   <script>
     var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
     (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
