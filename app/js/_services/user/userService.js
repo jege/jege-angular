@@ -3,6 +3,7 @@ servicesModule.factory('User', function($resource) {
         get: {method: 'GET'},
         create: {method: 'POST'},
         update: {method: 'PUT'},
-        signin: {method: 'POST', params: { _param1: 'signin' }}
+        signin: {method: 'POST', params: { _param1: 'signin' }},
+        verify: {method: 'POST', params: { _param1: 'verify' }}
   });
 });

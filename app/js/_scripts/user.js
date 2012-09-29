@@ -1,12 +1,25 @@
-function signin(userid, rememberMe) {
+function getLoggedInUser() {
+    return fromJson(sessionStorage.getItem("loggedInUser") || localStorage.getItem("loggedInUser"));
+}
+
+function isLoggedIn() {
+    return !!getLoggedInUser();
+}
+
+function signin(loggedInUser, rememberMe) {
     if(rememberMe) {
-        localStorage.setItem("userid", userid);
+        localStorage.setItem("loggedInUser", toJson(loggedInUser));
+        sessionStorage.removeItem("loggedInUser");
     } else {
-        sessionStorage.setItem("userid", userid);
+        sessionStorage.setItem("loggedInUser", toJson(loggedInUser));
+        localStorage.removeItem("loggedInUser");
     }
 }
 
 function signout() {
-    sessionStorage.removeItem("userid");
-    localStorage.removeItem("userid");
+    if(navigator.id) {
+        navigator.id.logout();
+    }
+    sessionStorage.removeItem("loggedInUser");
+    localStorage.removeItem("loggedInUser");
 }

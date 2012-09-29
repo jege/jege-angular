@@ -14,6 +14,13 @@
         %label.control-label{ :for => "inputSigninPassword" } Password
         .controls
           %input#inputSigninPassword{:type => "password", :placeholder => "Password", "data-ng-model" => "credentials.password"}
+          
+      .control-group
+        %label.control-label
+        .controls
+          %label{ :for => "inputSigninRememberMe" }
+            %input#inputSigninRememberMe{:type => "checkbox", "data-ng-model" => "credentials.rememberMe"}
+            Remember me
   
     .modal-footer
       %button.btn{ :type => "button", "data-dismiss" => "modal" } Cancel

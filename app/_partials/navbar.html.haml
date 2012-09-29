@@ -19,6 +19,10 @@
               %a{ :href => "#{site.base_url}/public/user/inscription" } Inscription
             %li{"data-ng-hide" => "isLoggedIn()"}
               %a{ :href => "#", :data => { :toggle => "modal", :target => "#signinModal" } } Sign in
+            %li{"data-ng-hide" => "isLoggedIn()"}
+              %a.persona-button.dark{ :href => "#", :onclick => "if(navigator.id) navigator.id.request();" }
+                %span
+                  Sign in
             %li.dropdown{"data-ng-show" => "isLoggedIn()"}
               %a.dropdown-toggle{ :href => "#", "data-toggle" => "dropdown" }
                 Me

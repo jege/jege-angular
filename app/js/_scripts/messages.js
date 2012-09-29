@@ -1,3 +1,5 @@
+var messageSeverities = new Array('error', 'warning', 'info', 'success');
+
 function handleMessages(messages) {
     messages.forEach(function(message) {
         addMessage(message);
@@ -5,10 +7,13 @@ function handleMessages(messages) {
 }
 
 function addMessage(message) {
-    var channel = getChannel(message.channel);
-    if(channel) {
-        if(!isChannelInitiated(channel, message.severity)) {
-            initChannel(channel, message.severity);
+    var channel = getChannel(message.type.toLowerCase());
+    if(channel && channel.data('channel-type')) {
+        if(!isChannelInitiated(channel)) {
+            initChannel(channel);
+        }
+        if(!isChannelSeverityInitiated(channel, message.severity.toLowerCase())) {
+            initChannelSeverity(channel, message.severity.toLowerCase());
         }
         var messagesList = channel.find('.alert-'+message.severity.toLowerCase()+' > ul');
         messagesList.append(messageToLi(message));
@@ -23,40 +28,59 @@ function clearChannels() {
     getChannels().children().remove();
 }
 
-function getChannel(channelName) {
-    if(isChannelUnique(channelName)) {
-        return $('#'+channelName+'Channel');
+function getChannel(channelType) {
+    if(channelType == 'debug') {
+        return $('#debugChannel');
+    } else if(channelType == 'notify') {
+        
     } else {
-        var channel;
-        $('[data-channel-name="'+channelName.slice(1)+'"]').each(function() {
-            if(isVisible(this)) {
-                channel = $(this);
-            }
-        });
-        return channel;
+        if(currentModal) {
+            return currentModal.find('[data-channel-type]').first();
+        } else {
+            return $('#globalChannel');
+        }
     }
 }
 
 function getChannels() {
-    return $('[data-channel-name]');
+    return $('[data-channel-type]');
 }
 
-function isChannelUnique(channelName) {
-    return !channelName.startsWith('@');
+function isChannelInitiated(channel) {
+    return channel.children().length > 0;
 }
 
-function isChannelInitiated(channel, severity) {
-    return channel.find('.alert-'+severity.toLowerCase()).length > 0;
+function isChannelSeverityInitiated(channel, severity) {
+    return !channel.find('.alert-'+severity).hasClass('hide');
 }
 
-function initChannel(channel, severity) {
-    channel.prepend(getChannelSeverityDiv(severity));
+function initChannel(channel) {
+    channel.prepend(getChannelSeverityDivs());
 }
 
-function getChannelSeverityDiv(severity) {
-    return '<div class="alert alert-block alert-'+severity.toLowerCase()+'"><button type="button" class="close" data-dismiss="alert">×</button><ul></ul></div>';
+function initChannelSeverity(channel, severity) {
+    return channel.find('.alert-'+severity).removeClass('hide');
+}
+
+function getChannelSeverityDivs() {
+    var divs = '';
+    
+    messageSeverities.forEach(function(severity) {
+        divs += '<div class="alert alert-block alert-'+severity+' hide"><button type="button" class="close" data-dismiss="alert">×</button><ul></ul></div>';
+    });
+    
+    return divs;
 }
 
 function messageToLi(message) {
-    return '<li>'+message.summary+'</li>';
+    if(message.detail) {
+        return '<li><strong>'+message.summary+':</strong> '+message.detail+'</li>';
+    }
+    else {
+        return '<li>'+message.summary+'</li>';
+    }
+}
+
+function notify(message) {
+    noty({text: message.summary});
 }

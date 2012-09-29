@@ -2,14 +2,26 @@ function handleResponse(response) {
     handleMessages(response.messages);
 }
 
+function toJson(obj) {
+    return JSON.stringify(obj);
+}
+
+function fromJson(json) {
+    return JSON.parse(json);
+}
+
+var currentModal;
+
 $('.modal').on('shown', function() {
-    $(this).find('.focus').get(0).focus();
+    currentModal = $(this);
+    currentModal.find('.focus').get(0).focus();
 });
 
 $('.modal').on('hidden', function() {
-    $(this).find('form').each(function() {
+    currentModal.find('form').each(function() {
         this.reset();
     });
+    currentModal = undefined;
 });
 
 $('form').on('keypress', 'input', function(event) {

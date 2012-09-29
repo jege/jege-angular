@@ -19,11 +19,13 @@ function SigninCtrl($scope, User) {
     $scope.signin = function() {
         User.signin({}, $scope.credentials,
             function(response) {
-                signin(response.body.userid);
+                signin(response.body, $scope.credentials.rememberMe);
                 $('#signinModal').modal('hide');
                 window.location.reload();
+                handleResponse(response);
             },
             function() {
+                handleResponse(response);
             }
         );
     }
@@ -34,7 +36,7 @@ function SigninCtrl($scope, User) {
 }
 
 function ProfileCtrl($scope, User) {
-    User.get({_param1: $scope.userid}, function(response) {
+    User.get({_param1: getLoggedInUser().id}, function(response) {
         $scope.user = response.body;
     });
     
